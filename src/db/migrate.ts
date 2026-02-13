@@ -1,4 +1,4 @@
-import { Database } from "bun:sqlite";
+import Database from "better-sqlite3";
 import { readFileSync } from "fs";
 import { resolve } from "path";
 
@@ -6,7 +6,7 @@ const dbPath = resolve("lending.db");
 const db = new Database(dbPath);
 
 // Enable foreign keys
-db.run("PRAGMA foreign_keys = ON");
+db.pragma("foreign_keys = ON");
 
 // Read and execute migration SQL
 const migrationPath = resolve("src/db/migrations/0000_slow_silhouette.sql");
@@ -18,7 +18,7 @@ const statements = sql.split("--> statement-breakpoint");
 for (const statement of statements) {
   if (statement.trim()) {
     try {
-      db.run(statement);
+      db.exec(statement);
     } catch (error: any) {
       // Ignore "already exists" errors
       if (!error.message.includes("already exists")) {
