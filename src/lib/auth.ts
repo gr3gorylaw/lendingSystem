@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { db } from "@/db";
 import { sessions, users, roles } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { eq, and, gt } from "drizzle-orm";
 import { randomUUID } from "crypto";
 
 const SESSION_COOKIE = "session_id";
@@ -75,7 +75,7 @@ export async function getSessionUser(): Promise<SessionUser | null> {
     .from(sessions)
     .innerJoin(users, eq(sessions.userId, users.id))
     .innerJoin(roles, eq(users.roleId, roles.id))
-    .where(and(eq(sessions.id, sessionCookie.value), eq(sessions.expiresAt, new Date())))
+    .where(and(eq(sessions.id, sessionCookie.value), gt(sessions.expiresAt, new Date())))
     .limit(1);
 
   if (session.length === 0) {
