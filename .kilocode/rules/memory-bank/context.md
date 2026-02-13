@@ -12,6 +12,7 @@ A full-featured lending management system with:
 
 ## Recently Completed
 
+- [x] Fixed database driver: switched from better-sqlite3 to bun:sqlite (Bun compatibility)
 - [x] Switched from cloud DB to local SQLite (bun:sqlite)
 - [x] Created database migration and seeded demo users
 - [x] Added loading.tsx files for all dashboard pages (fixes slow rendering)
