@@ -1,87 +1,59 @@
-# Active Context: Next.js Starter Template
+# Active Context: Lending Management System
 
 ## Current State
 
-**Template Status**: ✅ Ready for development
+**Project Status**: ✅ Operational
 
-The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. It's ready for AI-assisted expansion to build any type of application.
+A full-featured lending management system with:
+- Local SQLite database (Bun native)
+- Admin dashboard with loan/product/application management
+- Borrower portal for applying and managing loans
+- Authentication system with sessions
 
 ## Recently Completed
 
-- [x] Base Next.js 16 setup with App Router
-- [x] TypeScript configuration with strict mode
-- [x] Tailwind CSS 4 integration
-- [x] ESLint configuration
-- [x] Memory bank documentation
-- [x] Recipe system for common features
+- [x] Switched from cloud DB to local SQLite (bun:sqlite)
+- [x] Created database migration and seeded demo users
+- [x] Added loading.tsx files for all dashboard pages (fixes slow rendering)
+- [x] Fixed database path to use absolute path
+- [x] Added detailed logging to login action for debugging
+- [x] Admin credentials: admin@lending.com / admin123
+- [x] Borrower credentials: borrower@lending.com / borrower123
 
 ## Current Structure
 
 | File/Directory | Purpose | Status |
 |----------------|---------|--------|
-| `src/app/page.tsx` | Home page | ✅ Ready |
-| `src/app/layout.tsx` | Root layout | ✅ Ready |
-| `src/app/globals.css` | Global styles | ✅ Ready |
-| `.kilocode/` | AI context & recipes | ✅ Ready |
+| `lending.db` | Local SQLite database | ✅ Active |
+| `src/app/admin/` | Admin portal pages | ✅ Working |
+| `src/app/borrower/` | Borrower portal pages | ✅ Working |
+| `src/app/login/` | Authentication | ✅ Working |
 
-## Current Focus
+## Database Schema
 
-The template is ready. Next steps depend on user requirements:
+- `roles` - Admin and borrower roles
+- `users` - User accounts
+- `loanProducts` - Available loan products
+- `loanApplications` - Loan applications
+- `loans` - Active loans
+- `payments` - Payment records
+- `repaymentSchedules` - EMI schedules
+- `sessions` - Auth sessions
 
-1. What type of application to build
-2. What features are needed
-3. Design/branding preferences
+## Quick Start
 
-## Quick Start Guide
+1. Run `bun run src/db/migrate.ts` - Create tables (if needed)
+2. Run `bun run src/db/seed.ts` - Seed demo data (if needed)
+3. Run `bun dev` - Start development server
 
-### To add a new page:
+## Demo Credentials
 
-Create a file at `src/app/[route]/page.tsx`:
-```tsx
-export default function NewPage() {
-  return <div>New page content</div>;
-}
-```
-
-### To add components:
-
-Create `src/components/` directory and add components:
-```tsx
-// src/components/ui/Button.tsx
-export function Button({ children }: { children: React.ReactNode }) {
-  return <button className="px-4 py-2 bg-blue-600 text-white rounded">{children}</button>;
-}
-```
-
-### To add a database:
-
-Follow `.kilocode/recipes/add-database.md`
-
-### To add API routes:
-
-Create `src/app/api/[route]/route.ts`:
-```tsx
-import { NextResponse } from "next/server";
-
-export async function GET() {
-  return NextResponse.json({ message: "Hello" });
-}
-```
-
-## Available Recipes
-
-| Recipe | File | Use Case |
-|--------|------|----------|
-| Add Database | `.kilocode/recipes/add-database.md` | Data persistence with Drizzle + SQLite |
-
-## Pending Improvements
-
-- [ ] Add more recipes (auth, email, etc.)
-- [ ] Add example components
-- [ ] Add testing setup recipe
+- **Admin**: admin@lending.com / admin123
+- **Borrower**: borrower@lending.com / borrower123
 
 ## Session History
 
 | Date | Changes |
 |------|---------|
 | Initial | Template created with base setup |
+| 2026-02-13 | Added full lending system features, fixed slow rendering, fixed login issues |

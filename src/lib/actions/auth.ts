@@ -79,6 +79,8 @@ export async function login(
       return { success: false, error: "Email and password are required" };
     }
 
+    console.log("Login attempt for:", email.toLowerCase());
+
     // Find user by email
     const userRecords = await db
       .select()
@@ -86,14 +88,20 @@ export async function login(
       .where(eq(users.email, email.toLowerCase()))
       .limit(1);
 
+    console.log("User records found:", userRecords.length);
+
     if (userRecords.length === 0) {
+      console.log("User not found in database");
       return { success: false, error: "Invalid email or password" };
     }
 
     const user = userRecords[0];
+    console.log("User found, checking password...");
 
     // Verify password
     const isValidPassword = await verifyPassword(password, user.password);
+    console.log("Password valid:", isValidPassword);
+    
     if (!isValidPassword) {
       return { success: false, error: "Invalid email or password" };
     }
@@ -121,6 +129,10 @@ export async function login(
     return { success: true, redirect };
   } catch (error) {
     console.error("Login error:", error);
+    const err = error as Error;
+    if (err.message?.includes("cookies")) {
+      return { success: false, error: "Session error. Please try again." };
+    }
     return { success: false, error: "Login failed. Please try again." };
   }
 }
